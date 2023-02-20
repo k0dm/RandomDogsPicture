@@ -2,4 +2,6 @@
     <string name="app_name">RandomDogsPicture</string>
     <string name="random_dog_picture">Random dog picture</string>
     <string name="get_picture">get picture</string>
+    <string name="no_connection">No internet connection!</string>
+    <string name="service_unavailable">Service is unavailable!</string>
 </resources>
