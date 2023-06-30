@@ -1,6 +1,7 @@
 package com.example.randomdogspicture.viewmodel
 
-import android.widget.ImageView
+import android.graphics.drawable.Drawable
+import androidx.annotation.DrawableRes
 import com.example.randomdogspicture.model.Repository
 import com.example.randomdogspicture.view.Error
 
@@ -9,13 +10,12 @@ class ViewModel(private val repository: Repository) {
     private var resultCallback: ResultCallback = ResultCallback.Empty()
 
 
-    fun getPicture(imageView: ImageView) {
-        repository.getPicture(imageView)
+    fun getPicture() {
+        repository.getPicture()
     }
 
     fun init(resultCallback: ResultCallback) {
-       // this.resultCallback = resultCallback
-        repository.init(resultCallback)
+        this.repository.init(resultCallback)
     }
 
     fun clear() {
@@ -26,11 +26,14 @@ class ViewModel(private val repository: Repository) {
 }
 
 interface ResultCallback {
-    fun provideSuccess()
+    fun provideUrl(url: String)
     fun provideError(error: com.example.randomdogspicture.view.Error)
 
+    fun provideIconResId(@DrawableRes id: Int)
+
     class Empty : ResultCallback {
-        override fun provideSuccess() = Unit
+        override fun provideUrl(url: String) = Unit
         override fun provideError(error: Error) = Unit
+        override fun provideIconResId(id: Int) = Unit
     }
 }
