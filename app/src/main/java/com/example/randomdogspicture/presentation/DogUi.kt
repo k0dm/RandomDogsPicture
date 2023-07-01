@@ -1,14 +1,12 @@
-package com.example.randomdogspicture.view
+package com.example.randomdogspicture.presentation
 
 import androidx.annotation.DrawableRes
 import com.example.randomdogspicture.R
-import com.example.randomdogspicture.model.DataCallback
-import com.example.randomdogspicture.viewmodel.ResultCallback
 
 
 abstract class DogUI(private val link: String, @DrawableRes val iconResId: Int) {
 
-    fun provide(resultCallback: ResultCallback) = with(resultCallback) {
+    fun provide(resultUiCallback: ResultUiCallback) = with(resultUiCallback) {
         provideUrl(link)
         provideIconResId(iconResId)
     }

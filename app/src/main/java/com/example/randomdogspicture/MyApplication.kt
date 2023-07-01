@@ -1,13 +1,13 @@
 package com.example.randomdogspicture
 
 import android.app.Application
-import com.bumptech.glide.Glide
+
 import com.example.randomdogspicture.model.ManageResources
-import com.example.randomdogspicture.model.TestRepository
+import com.example.randomdogspicture.model.Repository
+import com.example.randomdogspicture.model.cache.CacheDataSource
 import com.example.randomdogspicture.model.cloud.BaseCloudDataSource
-import com.example.randomdogspicture.model.cloud.TestCloudDataSource
-import com.example.randomdogspicture.model.cloud.retrofit.LinkDogPictureService
-import com.example.randomdogspicture.viewmodel.ViewModel
+import com.example.randomdogspicture.model.cloud.DogService
+import com.example.randomdogspicture.presentation.ViewModel
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,8 +23,13 @@ class MyApplication : Application() {
 
         super.onCreate()
         viewModel = ViewModel(
-            TestRepository(
-                BaseCloudDataSource(retrofit.create(LinkDogPictureService::class.java), manageResources),
+            Repository.Base(
+                BaseCloudDataSource(
+                    retrofit.create(DogService::class.java),
+                    manageResources
+                ),
+                CacheDataSource.Fake(manageResources),
+//                TestCloudDataSource(),
                 manageResources
             )
         )

@@ -1,21 +1,20 @@
 package com.example.randomdogspicture.model.cloud
 
 import com.example.randomdogspicture.model.ManageResources
-import com.example.randomdogspicture.model.cloud.retrofit.LinkDogPictureService
-import com.example.randomdogspicture.view.Error
+import com.example.randomdogspicture.presentation.Error
 import retrofit2.Call
 import retrofit2.Response
 import java.net.UnknownHostException
 
 class BaseCloudDataSource(
-    private val service: LinkDogPictureService,
+    private val service: DogService,
     private val manageResources: ManageResources
 ) : CloudDataSource {
 
     private val noConnection by lazy { Error.NoConnection(manageResources) }
     private val serviceUnavailable by lazy { Error.ServiceUnavailable(manageResources) }
 
-    override fun getPicture(callback: LinkDogPictureCloudCallback) {
+    override fun fetch(callback: DogCloudCallback) {
         service.getPicture().enqueue(object : retrofit2.Callback<DogCloud> {
             override fun onResponse(
                 call: Call<DogCloud>,
@@ -29,11 +28,12 @@ class BaseCloudDataSource(
             }
 
             override fun onFailure(call: Call<DogCloud>, t: Throwable) {
-                if (t is UnknownHostException) {
-                    callback.fail(noConnection)
+                val error = if (t is UnknownHostException) {
+                    noConnection
                 } else {
-                    callback.fail(serviceUnavailable)
+                    serviceUnavailable
                 }
+                callback.fail(error)
             }
 
         })

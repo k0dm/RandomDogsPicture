@@ -4,4 +4,8 @@
     <string name="get_picture">get picture</string>
     <string name="no_connection">No internet connection!</string>
     <string name="service_unavailable">Service is unavailable!</string>
+    <string name="failed_loading">Image loading failed!</string>
+    <string name="bad_picture">Failed to process image!</string>
+    <string name="no_saved_pictures">No saved pictures!</string>
+
 </resources>
