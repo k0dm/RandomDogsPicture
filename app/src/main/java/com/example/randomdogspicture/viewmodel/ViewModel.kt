@@ -1,8 +1,11 @@
 package com.example.randomdogspicture.viewmodel
 
 import android.graphics.drawable.Drawable
+import android.os.DeadObjectException
 import androidx.annotation.DrawableRes
+import com.example.randomdogspicture.model.DataCallback
 import com.example.randomdogspicture.model.Repository
+import com.example.randomdogspicture.view.DogUI
 import com.example.randomdogspicture.view.Error
 
 class ViewModel(private val repository: Repository) {
@@ -15,7 +18,16 @@ class ViewModel(private val repository: Repository) {
     }
 
     fun init(resultCallback: ResultCallback) {
-        this.repository.init(resultCallback)
+        this.repository.init(object : DataCallback {
+            override fun provideDog(dogUI: DogUI) {
+                dogUI.provide(resultCallback)
+            }
+
+            override fun provideError(error: Error) {
+                resultCallback.provideError(error)
+            }
+        })
+
     }
 
     fun clear() {

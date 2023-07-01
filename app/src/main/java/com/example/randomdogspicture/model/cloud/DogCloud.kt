@@ -1,13 +1,12 @@
 package com.example.randomdogspicture.model.cloud
 
 import com.example.randomdogspicture.model.DataCallback
+import com.example.randomdogspicture.view.DogUI
 import com.google.gson.annotations.SerializedName
 
-class LinkDogPictureCloud(
+class DogCloud(
     @SerializedName("message")
     private val url: String
 ) {
-    fun map(dataCallback: DataCallback) {
-        dataCallback.provideUrl(url)
-    }
+    fun toDogUi() = DogUI.Base(url)
 }
