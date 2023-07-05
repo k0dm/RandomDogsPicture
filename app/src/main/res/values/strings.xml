@@ -7,5 +7,8 @@
     <string name="failed_loading">Image loading failed!</string>
     <string name="bad_picture">Failed to process image!</string>
     <string name="no_saved_pictures">No saved pictures!</string>
+    <string name="fail_save">Could not save bitmap!</string>
+    <string name="fail_create_media">Could not create MediaStore entry!</string>
+
 
 </resources>

@@ -2,12 +2,11 @@ package com.example.randomdogspicture.model
 
 import com.example.randomdogspicture.presentation.DogUI
 
-interface DataCallback {
+interface DogUiCallback: ErrorProvider {
 
     fun provideDog(dogUI: DogUI)
-    fun provideError(error: com.example.randomdogspicture.presentation.Error)
 
-    class Empty : DataCallback {
+    class Empty : DogUiCallback {
         override fun provideDog(dogUI: DogUI) = Unit
         override fun provideError(error: com.example.randomdogspicture.presentation.Error) = Unit
     }

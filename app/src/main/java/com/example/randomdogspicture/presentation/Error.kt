@@ -30,4 +30,10 @@ interface Error {
 
     class NoSavedPictures(manageResources: ManageResources) :
         Abstract(manageResources, R.string.no_saved_pictures)
+
+    class FailedSaving(manageResources: ManageResources) :
+        Abstract(manageResources, R.string.fail_save)
+
+    class FailedCreateMediaStore(manageResources: ManageResources) :
+        Abstract(manageResources, R.string.fail_create_media)
 }

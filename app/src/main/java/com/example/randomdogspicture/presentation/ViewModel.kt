@@ -1,22 +1,25 @@
 package com.example.randomdogspicture.presentation
 
-import androidx.annotation.DrawableRes
-import com.example.randomdogspicture.model.DataCallback
+import com.example.randomdogspicture.model.BitmapCallback
+import com.example.randomdogspicture.model.DogUiCallback
 import com.example.randomdogspicture.model.PictureSelection
 import com.example.randomdogspicture.model.Repository
+import com.example.randomdogspicture.model.DataUiCallback
+import com.example.randomdogspicture.model.ResultCallback
 
 class ViewModel(private val repository: Repository) {
 
-    private var resultUiCallback: ResultUiCallback = ResultUiCallback.Empty()
-    private val dataCallback = object : DataCallback {
+    private var dataUiCallback: DataUiCallback = DataUiCallback.Empty()
+    private val dogUiCallback = object : DogUiCallback {
         override fun provideDog(dogUI: DogUI) {
-            dogUI.provide(resultUiCallback)
+            dogUI.provide(dataUiCallback)
         }
 
         override fun provideError(error: Error) {
-            resultUiCallback.provideError(error)
+            dataUiCallback.provideError(error)
         }
     }
+
     fun getPicture(selection: PictureSelection = PictureSelection.CURRENT) {
         repository.fetch(selection)
     }
@@ -24,32 +27,27 @@ class ViewModel(private val repository: Repository) {
     fun chooseFavorites(fromCache: Boolean) {
         repository.chooseFavorites(fromCache)
     }
+
     fun changeStatus() {
-        repository.changeDogPictureStatus(dataCallback)
+        repository.changeDogPictureStatus(dogUiCallback)
     }
 
-    fun init(resultUiCallback: ResultUiCallback) {
+    fun init(dataUiCallback: DataUiCallback) {
 
-        this.resultUiCallback = resultUiCallback
-        this.repository.init(dataCallback)
+        this.dataUiCallback = dataUiCallback
+        this.repository.init(dogUiCallback)
     }
 
     fun clear() {
-        resultUiCallback = ResultUiCallback.Empty()
+        dataUiCallback = DataUiCallback.Empty()
         repository.clear()
     }
 
-}
-
-interface ResultUiCallback {
-    fun provideUrl(url: String)
-    fun provideError(error: com.example.randomdogspicture.presentation.Error)
-
-    fun provideIconResId(@DrawableRes id: Int)
-
-    class Empty : ResultUiCallback {
-        override fun provideUrl(url: String) = Unit
-        override fun provideError(error: Error) = Unit
-        override fun provideIconResId(id: Int) = Unit
+    fun downloadPicture(resultCallback: ResultCallback) {
+        Thread {
+            repository.downloadPicture(resultCallback)
+        }.start()
     }
+
 }
+

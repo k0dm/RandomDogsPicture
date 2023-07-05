@@ -23,7 +23,7 @@ class BaseCloudDataSource(
                 if (response.isSuccessful) {
                     callback.provide(response.body()!!)
                 } else {
-                    callback.fail(serviceUnavailable)
+                    callback.provideError(serviceUnavailable)
                 }
             }
 
@@ -33,7 +33,7 @@ class BaseCloudDataSource(
                 } else {
                     serviceUnavailable
                 }
-                callback.fail(error)
+                callback.provideError(error)
             }
 
         })

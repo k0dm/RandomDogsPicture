@@ -1,6 +1,7 @@
 package com.example.randomdogspicture
 
 import android.app.Application
+import com.example.randomdogspicture.model.DownloadManager
 
 import com.example.randomdogspicture.model.ManageResources
 import com.example.randomdogspicture.model.Repository
@@ -24,13 +25,14 @@ class MyApplication : Application() {
         super.onCreate()
         viewModel = ViewModel(
             Repository.Base(
+                this,
                 BaseCloudDataSource(
                     retrofit.create(DogService::class.java),
                     manageResources
                 ),
                 CacheDataSource.Fake(manageResources),
 //                TestCloudDataSource(),
-                manageResources
+                DownloadManager.Base(this, manageResources)
             )
         )
     }

@@ -4,8 +4,6 @@ import com.example.randomdogspicture.model.ManageResources
 import com.example.randomdogspicture.model.PictureSelection
 import com.example.randomdogspicture.model.cloud.DogCloud
 import com.example.randomdogspicture.presentation.DogUI
-import java.lang.Error
-import java.util.LinkedList
 
 interface CacheDataSource {
 
@@ -48,7 +46,7 @@ interface CacheDataSource {
                     }
                 )
             } else {
-                cacheCallback.fail(noSavedPictures)
+                cacheCallback.provideError(noSavedPictures)
             }
 
         }
